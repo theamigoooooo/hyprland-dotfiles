@@ -160,43 +160,21 @@ return {
           },
         },
       },
-      pylsp = {
+      basedpyright = {
         settings = {
-          pylsp = {
-            plugins = {
-              pyflakes = { enabled = false },
-              pycodestyle = { enabled = false },
-              autopep8 = { enabled = false },
-              yapf = { enabled = false },
-              mccabe = { enabled = false },
-              pylsp_mypy = { enabled = false },
-              pylsp_black = { enabled = false },
-              pylsp_isort = { enabled = false },
+          basedpyright = {
+            analysis = {
+              typeCheckingMode = 'basic',
+              autoImportCompletions = true,
+              useLibraryCodeForTypes = true,
             },
           },
         },
       },
-      -- basedpyright = {
-      --   -- Config options: https://github.com/DetachHead/basedpyright/blob/main/docs/settings.md
-      --   settings = {
-      --     basedpyright = {
-      --       disableOrganizeImports = true, -- Using Ruff's import organizer
-      --       disableLanguageServices = false,
-      --       analysis = {
-      --         ignore = { '*' },                 -- Ignore all files for analysis to exclusively use Ruff for linting
-      --         typeCheckingMode = 'off',
-      --         diagnosticMode = 'openFilesOnly', -- Only analyze open files
-      --         useLibraryCodeForTypes = true,
-      --         autoImportCompletions = true,     -- whether pyright offers auto-import completions
-      --       },
-      --     },
-      --   },
-      -- },
-      clangd = {
-        cmd = { 'clangd', '--background-index','--header-insertion=never','--compile-commands-dir=build' }, -- Enable background indexing for better performance
-        filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
-      },
       ruff = {},
+      clangd = {
+        cmd = { 'clangd', '--background-index', '--header-insertion=never', '--compile-commands-dir=build' },
+      },
       jsonls = {},
       sqlls = {},
       terraformls = {},
@@ -212,19 +190,21 @@ return {
       bashls = {},
       dockerls = {},
       docker_compose_language_service = {},
-      -- tailwindcss = {},
-      -- graphql = {},
       html = { filetypes = { 'html', 'twig', 'hbs' } },
-      -- cssls = {},
-      -- ltex = {},
-      -- texlab = {},
     }
 
     -- Ensure the servers and tools above are installed
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      'stylua', -- Used to format Lua 
-      'clang-format', -- Used to format C/C++/Objective-C
+      'stylua', -- Used to format Lua
+      'ruff', -- Python linter and formatter
+      'basedpyright', -- Python type checker
+      'prettierd', -- Faster prettier
+      'eslint_d', -- Faster eslint
+      'shellcheck', -- Bash linter
+      'shfmt', -- Bash formatter
+      'markdownlint', -- Markdown linter
+      'clang-format', -- C/C++ formatter
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

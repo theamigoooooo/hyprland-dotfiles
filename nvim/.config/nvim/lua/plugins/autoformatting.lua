@@ -1,73 +1,46 @@
--- Format on save and linters
 return {
-  'nvimtools/none-ls.nvim',
-  dependencies = {
-    'nvimtools/none-ls-extras.nvim',
-    'jayp0521/mason-null-ls.nvim', -- ensure dependencies are installed
-  },
-  config = function()
-    local null_ls = require 'null-ls'
-    local formatting = null_ls.builtins.formatting   -- to setup formatters
-    local diagnostics = null_ls.builtins.diagnostics -- to setup linters
-
-    -- list of formatters & linters for mason to install
-    require('mason-null-ls').setup {
-      ensure_installed = {
-        'checkmake',
-        'prettier',  -- ts/js/jsx/tsx/html/css/json formatter
-        'eslint_d',  -- ts/js/jsx/tsx linter
-        'shfmt',
-        'rustfmt',
-        -- 'stylua', -- lua formatter; Already installed via Mason
-        -- 'ruff',   -- Python linter and formatter; Already installed via Mason
-      },
-      automatic_installation = true,
-    }
-
-    local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-    local function enable_format_on_save(client, bufnr)
-      if client and client.supports_method 'textDocument/formatting' then
-        vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-        vim.api.nvim_create_autocmd('BufWritePre', {
-          group = augroup,
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format { bufnr = bufnr, async = false }
-          end,
-        })
-      end
-    end
-
-    vim.api.nvim_create_autocmd('LspAttach', {
-      group = vim.api.nvim_create_augroup('LspAttachFormat', { clear = true }),
-      callback = function(event)
-        local client = vim.lsp.get_client_by_id(event.data.client_id)
-        enable_format_on_save(client, event.buf)
+  'stevearc/conform.nvim',
+  event = { 'BufWritePre' },
+  cmd = { 'ConformInfo' },
+  keys = {
+    {
+      '<leader>f',
+      function()
+        require('conform').format { async = true, lsp_fallback = true }
       end,
-    })
-
-    local sources = {
-      diagnostics.checkmake,
-      formatting.prettier.with {
-        filetypes = {
-          'html', 'json', 'yaml', 'markdown',
-          'javascript', 'javascriptreact', -- JSX
-          'typescript', 'typescriptreact', -- TSX
-          'css', 'scss'
-        },
-      },
-      formatting.stylua,
-      formatting.shfmt.with { args = { '-i', '4' } },
-      formatting.terraform_fmt,
-      formatting.clang_format,
-      formatting.rustfmt,
-      require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
-      require 'none-ls.formatting.ruff_format',
-    }
-
-    null_ls.setup {
-      sources = sources,
-      on_attach = enable_format_on_save,
-    }
-  end,
+      mode = '',
+      desc = '[F]ormat buffer',
+    },
+  },
+  opts = {
+    notify_on_error = false,
+    format_on_save = function(bufnr)
+      -- Disable "format_on_save lsp_fallback" for languages that don't
+      -- have a well-standardized coding style. You can add additional
+      -- languages here or re-enable it for the disabled ones.
+      local disable_filetypes = { c = true, cpp = true }
+      return {
+        timeout_ms = 500,
+        lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+      }
+    end,
+    formatters_by_ft = {
+      lua = { 'stylua' },
+      -- Conform can also run multiple formatters sequentially
+      python = { 'ruff_format', 'ruff_organize_imports' },
+      --
+      -- You can use 'stop_after_first' to run the first available formatter from the list
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      markdown = { 'prettierd', 'prettier', stop_after_first = true },
+      sh = { 'shfmt' },
+      terraform = { 'terraform_fmt' },
+      rust = { 'rustfmt' },
+    },
+  },
 }

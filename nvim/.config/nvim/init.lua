@@ -24,6 +24,7 @@ require('lazy').setup {
   require 'plugins.lsp',
   require 'plugins.autocompletion',
   require 'plugins.autoformatting',
+  require 'plugins.linting',
   require 'plugins.wal',
   require 'plugins.oil',
   require 'plugins.autopairs',
