@@ -193,7 +193,7 @@ return {
       --   },
       -- },
       clangd = {
-        cmd = { 'clangd', '--background-index' }, -- Enable background indexing for better performance
+        cmd = { 'clangd', '--background-index','--header-insertion=never','--compile-commands-dir=build' }, -- Enable background indexing for better performance
         filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
       },
       ruff = {},
@@ -201,6 +201,14 @@ return {
       sqlls = {},
       terraformls = {},
       yamlls = {},
+      rust_analyzer = {
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = { allFeatures = true },
+            checkOnSave = { command = 'clippy' },
+          },
+        },
+      },
       bashls = {},
       dockerls = {},
       docker_compose_language_service = {},

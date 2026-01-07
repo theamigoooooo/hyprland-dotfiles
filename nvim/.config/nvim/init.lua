@@ -27,7 +27,7 @@ require('lazy').setup {
   require 'plugins.wal',
   require 'plugins.oil',
   require 'plugins.autopairs',
-  require 'plugins.avante',
+  require 'plugins.dap',
 }
 
 vim.cmd [[
