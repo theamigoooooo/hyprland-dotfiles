@@ -118,4 +118,8 @@ vim.diagnostic.config({
 
 -- Save and load session
 vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = true, silent = false })
-vim.keymap.set('n', '<leader>sl', ':source .session.vim<CR>', { noremap = true, silent = false })
+-- AI Assistant
+vim.keymap.set({ 'n', 'v' }, '<leader>ac', '<cmd>CodeCompanionChat Toggle<cr>', { desc = 'AI [C]hat' })
+vim.keymap.set({ 'n', 'v' }, '<leader>aa', '<cmd>CodeCompanionChat<cr>', { desc = 'AI [A]ssistant' })
+vim.keymap.set({ 'n', 'v' }, '<leader>ai', '<cmd>CodeCompanion<cr>', { desc = 'AI [I]nline' })
+vim.keymap.set('v', 'ga', '<cmd>CodeCompanionChat Add<cr>', { desc = 'AI Add to Chat' })

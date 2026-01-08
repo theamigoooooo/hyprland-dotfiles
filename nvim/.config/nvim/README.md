@@ -103,6 +103,18 @@ This configuration uses `<Space>` as the leader key.
 | `<leader>D` | Type definition |
 | `<leader>th` | Toggle inlay hints |
 
+### 🤖 AI Assistant (CodeCompanion)
+| Keymap | Action |
+| --- | --- |
+| `<leader>ac` | Toggle AI Chat |
+| `<leader>aa` | Open AI Assistant |
+| `<leader>ai` | AI Inline Assistant |
+| `ga` | Add selected text to Chat (Visual) |
+
+> [!TIP]
+> The AI chat opens as a Markdown buffer. **Type your question and press `<C-s>` to send it.**
+> Inside the chat buffer, press **`ga`** to switch between adapters (Ollama/Gemini) and **`?`** to see all chat keymaps.
+
 ### 🐞 DAP (Debugger)
 | Keymap | Action |
 | --- | --- |

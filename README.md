@@ -8,10 +8,10 @@ Each directory (e.g. `nvim/`, `kitty/`, `waybar/`) is a _stow package_ containin
   <img src="demo.gif" width="600" alt="Demo">
 </p>
 
-
 ---
 
 ## Structure
+
 ```yaml
 dotfiles/
 ├── hypr/ → Hyprland configuration
@@ -60,28 +60,33 @@ The `setwall` folder contains a script to **set your wallpaper** and **update yo
 ### 🧩 Installation
 
 1. Copy the script to your local binaries directory:
+
 ```bash
 cp ~/dotfiles/setwall/setwall.sh ~/.local/bin/setwall
 ```
 
 Give it execute permission:
+
 ```bash
 chmod +x ~/.local/bin/setwall
 ```
 
-
 (Optional) Ensure ~/.local/bin is in your PATH:
+
 ```bash
 echo $PATH
 ```
 
 If not, add this to your shell config (~/.zshrc or ~/.bashrc):
+
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
 #### Usage
 
 Once installed, you can run it globally:
+
 ```bash
 setwall ~/Pictures/image.jpg
 ```
@@ -104,6 +109,7 @@ Tips
 Use stow -n <pkg> for a dry run (see what would change)
 
 Commit your changes:
+
 ```bash
 Copy code
 git add .
