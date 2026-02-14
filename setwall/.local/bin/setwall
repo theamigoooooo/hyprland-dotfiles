@@ -1,8 +1,36 @@
 #!/bin/bash
-WALL="$1"
-swww img "$WALL" --transition-type any
-wal -i "$WALL"
-#~/.config/hypr/update_borders.sh
-pkill waybar && waybar &
-hyprctl reload
 
+WALL="$1"
+
+# Safety check
+[ -z "$WALL" ] && {
+    echo "Usage: $0 <wallpaper>"
+    exit 1
+}
+
+# Set wallpaper
+swww img "$WALL" --transition-type any
+
+# Generate Pywal colors
+wal -i "$WALL"
+
+# Flatten Pywal colors into GTK3-compatible CSS for Thunar
+GTK_CSS="$HOME/.cache/wal/thunar-gtk.css"
+cp "$HOME/.cache/wal/colors-gtk.css" "$GTK_CSS"
+
+# Replace variables in Thunar CSS with actual hex values
+# Example: replace @background, @foreground, @color0, @color4
+sed -i \
+    -e "s/@background/$(grep 'background' $HOME/.cache/wal/colors-gtk.css | cut -d' ' -f3)/g" \
+    -e "s/@foreground/$(grep 'foreground' $HOME/.cache/wal/colors-gtk.css | cut -d' ' -f3)/g" \
+    -e "s/@color0/$(grep 'color0' $HOME/.cache/wal/colors-gtk.css | cut -d' ' -f3)/g" \
+    -e "s/@color4/$(grep 'color4' $HOME/.cache/wal/colors-gtk.css | cut -d' ' -f3)/g" \
+    "$GTK_CSS"
+
+# Reload Waybar
+pkill waybar
+sleep 0.1
+waybar &
+
+# Reload Hyprland
+hyprctl reload
