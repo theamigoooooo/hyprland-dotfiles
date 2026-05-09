@@ -9,7 +9,7 @@ WALL="$1"
 }
 
 # Set wallpaper
-swww img "$WALL" --transition-type any
+awww img "$WALL" --transition-type any
 
 # Generate Pywal colors
 wal -i "$WALL"
