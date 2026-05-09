@@ -107,19 +107,13 @@ end, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
-vim.diagnostic.config({
+vim.diagnostic.config {
   float = {
-    focusable = true,  -- can focus the popup
-    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-    border = "rounded",
+    focusable = true, -- can focus the popup
+    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+    border = 'rounded',
   },
-})
-
+}
 
 -- Save and load session
 vim.keymap.set('n', '<leader>ss', ':mksession! .session.vim<CR>', { noremap = true, silent = false })
--- AI Assistant
-vim.keymap.set({ 'n', 'v' }, '<leader>ac', '<cmd>CodeCompanionChat Toggle<cr>', { desc = 'AI [C]hat' })
-vim.keymap.set({ 'n', 'v' }, '<leader>aa', '<cmd>CodeCompanionChat<cr>', { desc = 'AI [A]ssistant' })
-vim.keymap.set({ 'n', 'v' }, '<leader>ai', '<cmd>CodeCompanion<cr>', { desc = 'AI [I]nline' })
-vim.keymap.set('v', 'ga', '<cmd>CodeCompanionChat Add<cr>', { desc = 'AI Add to Chat' })

@@ -19,6 +19,7 @@ require('lazy').setup {
   require 'plugins.bufferline',
   require 'plugins.neotree',
   require 'plugins.lualine',
+  require 'plugins.cmp',
   require 'plugins.treesitter',
   require 'plugins.telescope',
   require 'plugins.lsp',
@@ -29,7 +30,6 @@ require('lazy').setup {
   require 'plugins.oil',
   require 'plugins.autopairs',
   require 'plugins.dap',
-  require 'plugins.ai',
 }
 
 vim.cmd [[
