@@ -14,13 +14,15 @@ BRIGHTEST=""
 HIGHEST_BRIGHTNESS=-1  # Start with a low value
 
 for COLOR in $(jq -r '.colors | to_entries[] | .value' "$WALJSON" | tr -d '#'); do
-    R=$((16#${COLOR:0:2}))
-    G=$((16#${COLOR:2:2}))
-    B=$((16#${COLOR:4:2}))
-    LUMA=$(echo "0.299 * $R + 0.587 * $G + 0.114 * $B" | bc)
-    if (( $(echo "$LUMA > $HIGHEST_BRIGHTNESS" | bc -l) )); then
-        HIGHEST_BRIGHTNESS=$LUMA
-        BRIGHTEST=$COLOR
+    if [ ${#COLOR} -eq 6 ]; then
+        R=$((16#${COLOR:0:2}))
+        G=$((16#${COLOR:2:2}))
+        B=$((16#${COLOR:4:2}))
+        LUMA=$(( 299 * R + 587 * G + 114 * B ))
+        if [ "$LUMA" -gt "$HIGHEST_BRIGHTNESS" ]; then
+            HIGHEST_BRIGHTNESS=$LUMA
+            BRIGHTEST=$COLOR
+        fi
     fi
 done
 
