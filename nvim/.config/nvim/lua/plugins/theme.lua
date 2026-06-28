@@ -31,7 +31,7 @@ return {
         overlay1 = colors.colors.color8,
         overlay0 = colors.colors.color8,
         surface2 = colors.colors.color8,
-        surface1 = colors.colors.color0,
+        surface1 = colors.colors.color8,
         surface0 = colors.colors.color0,
         
         red = colors.colors.color1,
